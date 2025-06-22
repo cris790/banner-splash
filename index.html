@@ -881,7 +881,7 @@
     <div class="particles" id="particles"></div>
     <div class="grid-plane"></div>
     
-    <h1 class="main-title">ZD MAMADOR BANNERS</h1>
+    <h1 class="main-title">SPLASH BANNERS ARCHIVE</h1>
     
     <div class="terminal-container" id="terminal-container">
         <div class="terminal-header">
@@ -1125,7 +1125,7 @@ Created by @STark771.
             // Add creator info to the terminal
             const creatorInfo = document.createElement('div');
             creatorInfo.className = 'creator-info';
-            creatorInfo.innerHTML = `Created by @Stark771.<br>
+            creatorInfo.innerHTML = `Created by @STark771.<br>
             <a href="" target="_blank">Instagram</a> 
             <a href="" target="_blank">Telegram</a>`;
             terminalContent.appendChild(creatorInfo);
@@ -1139,11 +1139,29 @@ Created by @STark771.
             regionCount.style.display = 'none';
             
             try {
-                const proxyUrl = "https://api.allorigins.win/raw?url=";
-                const apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
+                let apiUrl;
                 
-                const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
-                const data = await response.json();
+                // Special case for Brazil - use the specific API
+                if (region === 'BR') {
+                    apiUrl = 'https://banner-two-phi.vercel.app/splash';
+                } else {
+                    // For other regions, use the original API with proxy
+                    const proxyUrl = "https://api.allorigins.win/raw?url=";
+                    apiUrl = proxyUrl + encodeURIComponent(`https://ff-banner-api.vercel.app/banner/filter?region=${region}`);
+                }
+                
+                const response = await fetch(apiUrl);
+                let data = await response.json();
+                
+                // Process Brazil data to match the expected format
+                if (region === 'BR') {
+                    data = data.map(banner => ({
+                        url: banner.imageUrl,
+                        title: banner.title || 'Brazil Splash Banner',
+                        start: Math.floor(new Date(banner.date || new Date()).getTime() / 1000),
+                        redirect: banner.redirectUrl || ''
+                    }));
+                }
                 
                 showStatus('Banners loaded successfully', 'success');
                 return Array.isArray(data) ? data : [];
