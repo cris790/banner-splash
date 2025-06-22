@@ -1131,83 +1131,103 @@ Created by @STark771.
             terminalContent.appendChild(creatorInfo);
         }
 
-        // Data fetching and processing - MODIFIED FOR BR
-        async function fetchBanners(region) {
-            showStatus('Loading banners...', 'info');
-            loadingGears.style.display = 'flex';
-            bannersContainer.style.display = 'none';
-            regionCount.style.display = 'none';
+// Modifique a função fetchBanners para BR
+async function fetchBanners(region) {
+    showStatus('Loading banners...', 'info');
+    loadingGears.style.display = 'flex';
+    bannersContainer.style.display = 'none';
+    regionCount.style.display = 'none';
+    
+    try {
+        if (region === 'BR') {
+            // API especial para Brasil
+            const apiUrl = "https://banner-two-phi.vercel.app/splash";
+            console.log("Fetching BR banners from:", apiUrl);
             
-            try {
-                let apiUrl;
-                let data;
-                
-                if (region === 'BR') {
-                    // Special API for Brazil
-                    apiUrl = "https://banner-two-phi.vercel.app/splash";
-                    const response = await fetch(apiUrl);
-                    data = await response.json();
-                    
-                    // Process the specific BR response
-                    return processBrazilBanners(data);
-                } else {
-                    // Standard API for other regions
-                    const proxyUrl = "https://api.allorigins.win/raw?url=";
-                    apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
-                    const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
-                    data = await response.json();
-                    
-                    return Array.isArray(data) ? data : [];
-                }
-            } catch (error) {
-                console.error("Error fetching banners:", error);
-                showStatus('Failed to load banners', 'error');
-                return [];
-            } finally {
-                setTimeout(() => {
-                    loadingGears.style.display = 'none';
-                }, 500);
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
+            const data = await response.json();
+            console.log("BR API response:", data);
+            
+            const processedBanners = processBrazilBanners(data);
+            console.log("Processed BR banners:", processedBanners);
+            
+            return processedBanners;
+        } else {
+            // API padrão para outras regiões
+            const proxyUrl = "https://api.allorigins.win/raw?url=";
+            const apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
+            const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+            const data = await response.json();
+            return Array.isArray(data) ? data : [];
         }
+    } catch (error) {
+        console.error("Error fetching banners:", error);
+        showStatus('Failed to load banners', 'error');
+        return [];
+    } finally {
+        setTimeout(() => {
+            loadingGears.style.display = 'none';
+        }, 500);
+    }
+}
 
-        // Function to process Brazil banners
-        function processBrazilBanners(data) {
-            const banners = [];
-            
-            // Process banners (campaigns)
-            if (data.banners && data.banners.length > 0) {
-                data.banners[0].entries.forEach(entry => {
+// Atualize a função processBrazilBanners
+function processBrazilBanners(data) {
+    const banners = [];
+    
+    // Verifica se a estrutura de dados está correta
+    if (!data) {
+        console.error("No data received from BR API");
+        return banners;
+    }
+
+    // Processa banners (campanhas)
+    if (data.banners && Array.isArray(data.banners) && data.banners.length > 0) {
+        data.banners.forEach(bannerGroup => {
+            if (bannerGroup.entries && Array.isArray(bannerGroup.entries)) {
+                bannerGroup.entries.forEach(entry => {
                     if (entry.image_url) {
                         banners.push({
-                            title: entry.title,
+                            title: entry.title || "Untitled Campaign",
                             url: entry.image_url,
-                            start: parseInt(entry.start_time),
-                            end: parseInt(entry.end_time),
-                            redirect: entry.action_link || null,
+                            start: parseInt(entry.start_time) || Date.now()/1000,
+                            end: parseInt(entry.end_time) || (Date.now()/1000 + 86400),
+                            redirect: entry.action_link || entry.action_id || null,
                             region: 'BR'
                         });
                     }
                 });
             }
-            
-            // Process events (considering as banners too)
-            if (data.events && data.events.length > 0) {
-                data.events[0].entries.forEach(entry => {
+        });
+    }
+    
+    // Processa eventos
+    if (data.events && Array.isArray(data.events) && data.events.length > 0) {
+        data.events.forEach(eventGroup => {
+            if (eventGroup.entries && Array.isArray(eventGroup.entries)) {
+                eventGroup.entries.forEach(entry => {
                     if (entry.image_url) {
                         banners.push({
-                            title: entry.title,
+                            title: entry.title || "Untitled Event",
                             url: entry.image_url,
-                            start: parseInt(entry.start_time),
-                            end: parseInt(entry.end_time),
-                            redirect: entry.group_id_2 || null,
+                            start: parseInt(entry.start_time) || Date.now()/1000,
+                            end: parseInt(entry.end_time) || (Date.now()/1000 + 86400),
+                            redirect: entry.group_id_2 || entry.group_id || null,
                             region: 'BR'
                         });
                     }
                 });
             }
-            
-            return banners;
-        }
+        });
+    }
+    
+    console.log("Total banners processed for BR:", banners.length);
+    return banners;
+}
 
         // Status indicator functions
         function showStatus(message, type = 'info') {
