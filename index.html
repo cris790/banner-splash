@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SPLASH BANNERS ARCHIVE</title>
+    <title>ARQUIVO DE BANNERS FREE FIRE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
@@ -881,7 +881,7 @@
     <div class="particles" id="particles"></div>
     <div class="grid-plane"></div>
     
-    <h1 class="main-title">ZD MAMADOR BANNERS</h1>
+    <h1 class="main-title">BANNERS FREE FIRE</h1>
     
     <div class="terminal-container" id="terminal-container">
         <div class="terminal-header">
@@ -890,23 +890,23 @@
                 <div class="terminal-button minimize" id="terminal-minimize"></div>
                 <div class="terminal-button maximize" id="terminal-maximize"></div>
             </div>
-            <div class="terminal-title">banner-terminal</div>
+            <div class="terminal-title">terminal-banners</div>
         </div>
         <div class="terminal-body" id="terminal-body">
             <div class="terminal-content" id="terminal-content">
                 <div class="terminal-welcome">
-                    Welcome to Splash Banners Archive Terminal
+                    Bem-vindo ao Arquivo de Banners Free Fire
                 </div>
                 <div class="terminal-welcome">
-                    Type <span class="command-highlight">help</span> for available commands
+                    Digite <span class="command-highlight">ajuda</span> para ver os comandos disponíveis
                 </div>
                 <div class="regions-list">
-                    Available regions: IND, SG, BD, EU, CIS, NA, ID, PK, BR, ME, TH, SAC, VN
+                    Regiões disponíveis: IND, SG, BD, EU, CIS, NA, ID, PK, BR, ME, TH, SAC, VN
                 </div>
             </div>
             <div class="terminal-prompt">
-                <span class="terminal-user">user</span>
-                <span class="terminal-location">@banner-terminal</span>
+                <span class="terminal-user">usuário</span>
+                <span class="terminal-location">@terminal-banners</span>
                 <span class="terminal-symbol">:$</span>
                 <span class="terminal-input-visible" id="terminal-input-display"></span>
                 <span class="terminal-cursor"></span>
@@ -958,15 +958,15 @@
     <div class="banners" id="banners-container"></div>
     
     <div class="status-indicator" id="status-indicator">
-        <i class="fas fa-circle-notch fa-spin"></i> <span>Loading...</span>
+        <i class="fas fa-circle-notch fa-spin"></i> <span>Carregando...</span>
     </div>
     
-    <button class="back-to-top" id="backToTop" title="Go to top">
+    <button class="back-to-top" id="backToTop" title="Ir para o topo">
         <i class="fas fa-arrow-up"></i>
     </button>
     
-    <div class="keyboard-shortcut" id="keyboardShortcut" title="Focus terminal">
-        Press <kbd>Ctrl</kbd> + <kbd>K</kbd> to focus terminal
+    <div class="keyboard-shortcut" id="keyboardShortcut" title="Focar no terminal">
+        Pressione <kbd>Ctrl</kbd> + <kbd>K</kbd> para focar no terminal
     </div>
     
     <audio id="hoverSound" preload="auto">
@@ -980,24 +980,24 @@
     </audio>
 
     <script>
-        // Enhanced regions data with additional info
+        // Dados das regiões com informações adicionais
         const regions = {
-            "IND": { name: "INDIA", flag: "🇮🇳" },
-            "SG": { name: "SINGAPORE", flag: "🇸🇬" },
+            "IND": { name: "ÍNDIA", flag: "🇮🇳" },
+            "SG": { name: "SINGAPURA", flag: "🇸🇬" },
             "BD": { name: "BANGLADESH", flag: "🇧🇩" },
-            "EU": { name: "EUROPE", flag: "🇪🇺" },
-            "CIS": { name: "RUSSIA", flag: "🇷🇺" },
-            "NA": { name: "NORTH AMERICA", flag: "🇺🇸" },
-            "ID": { name: "INDONESIA", flag: "🇮🇩" },
-            "PK": { name: "PAKISTAN", flag: "🇵🇰" },
-            "BR": { name: "BRAZIL", flag: "🇧🇷", specialApi: true },
-            "ME": { name: "MIDDLE EAST", flag: "🇸🇦" },
-            "TH": { name: "THAILAND", flag: "🇹🇭" },
+            "EU": { name: "EUROPA", flag: "🇪🇺" },
+            "CIS": { name: "RÚSSIA", flag: "🇷🇺" },
+            "NA": { name: "AMÉRICA DO NORTE", flag: "🇺🇸" },
+            "ID": { name: "INDONÉSIA", flag: "🇮🇩" },
+            "PK": { name: "PAQUISTÃO", flag: "🇵🇰" },
+            "BR": { name: "BRASIL", flag: "🇧🇷", specialApi: true },
+            "ME": { name: "ORIENTE MÉDIO", flag: "🇸🇦" },
+            "TH": { name: "TAILÂNDIA", flag: "🇹🇭" },
             "SAC": { name: "LATAM", flag: "🇲🇽" },
-            "VN": { name: "VIETNAM", flag: "🇻🇳" }
+            "VN": { name: "VIETNÃ", flag: "🇻🇳" }
         };
 
-        // DOM Elements
+        // Elementos DOM
         const terminalContent = document.getElementById("terminal-content");
         const terminalInput = document.getElementById("terminal-input");
         const terminalInputDisplay = document.getElementById("terminal-input-display");
@@ -1017,38 +1017,38 @@
         const clickSound = document.getElementById("clickSound");
         const successSound = document.getElementById("successSound");
 
-        // Command history and state
+        // Histórico de comandos e estado
         let commandHistory = [];
         let historyIndex = -1;
         let currentRegion = null;
         let currentBanners = [];
 
-        // Initialize particles with navigation functionality
+        // Inicializa partículas com funcionalidade de navegação
         function initParticles() {
             const particleCount = Math.min(Math.floor(window.innerWidth * window.innerHeight / 10000), 50);
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
-                // Random size between 1 and 3px
+                // Tamanho aleatório entre 1 e 3px
                 const size = Math.random() * 2 + 1;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 
-                // Random position
+                // Posição aleatória
                 particle.style.left = `${Math.random() * 100}%`;
                 particle.style.top = `${Math.random() * 100}%`;
                 
-                // Random animation duration between 10 and 20s
+                // Duração aleatória da animação entre 10 e 20s
                 const duration = Math.random() * 10 + 10;
                 particle.style.animationDuration = `${duration}s`;
                 
-                // Random delay
+                // Atraso aleatório
                 particle.style.animationDelay = `${Math.random() * 20}s`;
                 
-                // Make particles clickable for navigation
+                // Torna as partículas clicáveis para navegação
                 particle.addEventListener('click', () => {
-                    const commands = ['IND', 'EU', 'NA', 'BR', 'HELP', 'ABOUT', 'CLEAR'];
+                    const commands = ['BR', 'EU', 'NA', 'IND', 'AJUDA', 'SOBRE', 'LIMPAR'];
                     const randomCommand = commands[Math.floor(Math.random() * commands.length)];
                     terminalInput.value = randomCommand;
                     terminalInputDisplay.textContent = randomCommand;
@@ -1062,21 +1062,21 @@
             }
         }
 
-        // Terminal functions
+        // Funções do terminal
         function addTerminalLine(text, type = "output") {
             const line = document.createElement("div");
             line.className = "terminal-line";
             
-            // Only add prompt for command inputs, not for command outputs
+            // Apenas adiciona o prompt para entradas de comando, não para saídas
             if (type === "output") {
                 const prompt = document.createElement("span");
-                prompt.innerHTML = '<span class="terminal-user">user</span><span class="terminal-location">@banner-terminal</span><span class="terminal-symbol">:$</span> ';
+                prompt.innerHTML = '<span class="terminal-user">usuário</span><span class="terminal-location">@terminal-banners</span><span class="terminal-symbol">:$</span> ';
                 line.appendChild(prompt);
             }
             
             const content = document.createElement("span");
             content.className = `command-${type}`;
-            content.innerHTML = text; // Changed to innerHTML to render spans correctly
+            content.innerHTML = text; // Alterado para innerHTML para renderizar spans corretamente
             line.appendChild(content);
             
             terminalContent.appendChild(line);
@@ -1086,13 +1086,13 @@
         function clearTerminal() {
             terminalContent.innerHTML = `
                 <div class="terminal-welcome">
-                    Welcome to Splash Banners Archive Terminal
+                    Bem-vindo ao Arquivo de Banners Free Fire
                 </div>
                 <div class="terminal-welcome">
-                    Type <span class="command-highlight">help</span> for available commands
+                    Digite <span class="command-highlight">ajuda</span> para ver os comandos disponíveis
                 </div>
                 <div class="regions-list">
-                    Available regions: IND, SG, BD, EU, CIS, NA, ID, PK, BR, ME, TH, SAC, VN
+                    Regiões disponíveis: IND, SG, BD, EU, CIS, NA, ID, PK, BR, ME, TH, SAC, VN
                 </div>
             `;
             commandHistory = [];
@@ -1100,136 +1100,128 @@
         }
 
         function showHelp() {
-            const helpText = `Available commands:
-[<span class="command-highlight">region code</span>] - Load banners for specified region (e.g., IND, EU, NA)
-<span class="command-highlight">list</span> - Show available region codes
-<span class="command-highlight">clear</span> - Clear the terminal
-<span class="command-highlight">help</span> - Show this help message
-<span class="command-highlight">about</span> - Show information about this project
+            const helpText = `Comandos disponíveis:
+[<span class="command-highlight">código da região</span>] - Carrega banners da região especificada (ex: BR, EU, NA)
+<span class="command-highlight">listar</span> - Mostra códigos de regiões disponíveis
+<span class="command-highlight">limpar</span> - Limpa o terminal
+<span class="command-highlight">ajuda</span> - Mostra esta mensagem de ajuda
+<span class="command-highlight">sobre</span> - Mostra informações sobre este projeto
 
-Examples:
-> IND - Load India banners
-> list - Show all region codes`;
+Exemplos:
+> BR - Carrega banners do Brasil
+> listar - Mostra todos os códigos de região`;
             addTerminalLine(helpText, "info");
         }
 
         function showAbout() {
-            const aboutText = `Splash Banners Archive v2.0
-A collection of Free Fire splash banners from all regions.
+            const aboutText = `Arquivo de Banners Free Fire v2.0
+Uma coleção de banners de splash do Free Fire de todas as regiões.
             
-Created by @STark771.
+Criado por @STark771.
 <a href="" target="_blank">Instagram</a>  
 <a href="" target="_blank">Telegram</a>`;
             addTerminalLine(aboutText, "info");
             
-            // Add creator info to the terminal
+            // Adiciona informações do criador ao terminal
             const creatorInfo = document.createElement('div');
             creatorInfo.className = 'creator-info';
-            creatorInfo.innerHTML = `Created by @Stark771.<br>
+            creatorInfo.innerHTML = `Criado por @Stark771.<br>
             <a href="" target="_blank">Instagram</a> 
             <a href="" target="_blank">Telegram</a>`;
             terminalContent.appendChild(creatorInfo);
         }
 
-// Modifique a função fetchBanners para BR
-async function fetchBanners(region) {
-    showStatus('Loading banners...', 'info');
-    loadingGears.style.display = 'flex';
-    bannersContainer.style.display = 'none';
-    regionCount.style.display = 'none';
-    
-    try {
-        if (region === 'BR') {
-            // API especial para Brasil
-            const apiUrl = "https://banner-two-phi.vercel.app/splash";
-            console.log("Fetching BR banners from:", apiUrl);
+        // Busca e processamento de dados
+        async function fetchBanners(region) {
+            showStatus('Carregando banners...', 'info');
+            loadingGears.style.display = 'flex';
+            bannersContainer.style.display = 'none';
+            regionCount.style.display = 'none';
             
-            const response = await fetch(apiUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            try {
+                // Verifica se é a região BR que precisa da API especial
+                if (regions[region]?.specialApi) {
+                    return await fetchBrazilBanners();
+                } else {
+                    const proxyUrl = "https://api.allorigins.win/raw?url=";
+                    const apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
+                    
+                    const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+                    const data = await response.json();
+                    
+                    showStatus('Banners carregados com sucesso', 'success');
+                    return Array.isArray(data) ? data : [];
+                }
+            } catch (error) {
+                console.error("Erro ao buscar banners:", error);
+                showStatus('Falha ao carregar banners', 'error');
+                return [];
+            } finally {
+                setTimeout(() => {
+                    loadingGears.style.display = 'none';
+                }, 500); // Pequeno atraso para evitar piscar
             }
-            
-            const data = await response.json();
-            console.log("BR API response:", data);
-            
-            const processedBanners = processBrazilBanners(data);
-            console.log("Processed BR banners:", processedBanners);
-            
-            return processedBanners;
-        } else {
-            // API padrão para outras regiões
-            const proxyUrl = "https://api.allorigins.win/raw?url=";
-            const apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
-            const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
-            const data = await response.json();
-            return Array.isArray(data) ? data : [];
         }
-    } catch (error) {
-        console.error("Error fetching banners:", error);
-        showStatus('Failed to load banners', 'error');
-        return [];
-    } finally {
-        setTimeout(() => {
-            loadingGears.style.display = 'none';
-        }, 500);
-    }
-}
 
-// Atualize a função processBrazilBanners
-function processBrazilBanners(data) {
-    const banners = [];
-    
-    // Verifica se a estrutura de dados está correta
-    if (!data) {
-        console.error("No data received from BR API");
-        return banners;
-    }
-
-    // Processa banners (campanhas)
-    if (data.banners && Array.isArray(data.banners) && data.banners.length > 0) {
-        data.banners.forEach(bannerGroup => {
-            if (bannerGroup.entries && Array.isArray(bannerGroup.entries)) {
-                bannerGroup.entries.forEach(entry => {
-                    if (entry.image_url) {
-                        banners.push({
-                            title: entry.title || "Untitled Campaign",
-                            url: entry.image_url,
-                            start: parseInt(entry.start_time) || Date.now()/1000,
-                            end: parseInt(entry.end_time) || (Date.now()/1000 + 86400),
-                            redirect: entry.action_link || entry.action_id || null,
-                            region: 'BR'
-                        });
-                    }
-                });
+        // Função especial para buscar banners do Brasil
+        async function fetchBrazilBanners() {
+            try {
+                const response = await fetch('https://banner-two-phi.vercel.app/splash');
+                const data = await response.json();
+                
+                // Processa os dados da API BR para o formato esperado pelo nosso sistema
+                let processedBanners = [];
+                
+                // Processa banners (do array "banners")
+                if (data.banners && data.banners.length > 0) {
+                    data.banners.forEach(bannerGroup => {
+                        if (bannerGroup.entries && bannerGroup.entries.length > 0) {
+                            bannerGroup.entries.forEach(entry => {
+                                if (entry.image_url) { // Só adiciona se tiver imagem
+                                    processedBanners.push({
+                                        end: parseInt(entry.end_time),
+                                        redirect: entry.action_link || '',
+                                        region: entry.country,
+                                        start: parseInt(entry.start_time),
+                                        title: entry.title,
+                                        url: entry.image_url
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+                
+                // Processa eventos (do array "events")
+                if (data.events && data.events.length > 0) {
+                    data.events.forEach(eventGroup => {
+                        if (eventGroup.entries && eventGroup.entries.length > 0) {
+                            eventGroup.entries.forEach(entry => {
+                                if (entry.image_url) { // Só adiciona se tiver imagem
+                                    processedBanners.push({
+                                        end: parseInt(entry.end_time),
+                                        redirect: entry.group_id || entry.group_id_2 || '',
+                                        region: entry.country,
+                                        start: parseInt(entry.start_time),
+                                        title: entry.title,
+                                        url: entry.image_url
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+                
+                showStatus('Banners do Brasil carregados com sucesso', 'success');
+                return processedBanners;
+            } catch (error) {
+                console.error("Erro ao buscar banners do Brasil:", error);
+                showStatus('Falha ao carregar banners do Brasil', 'error');
+                return [];
             }
-        });
-    }
-    
-    // Processa eventos
-    if (data.events && Array.isArray(data.events) && data.events.length > 0) {
-        data.events.forEach(eventGroup => {
-            if (eventGroup.entries && Array.isArray(eventGroup.entries)) {
-                eventGroup.entries.forEach(entry => {
-                    if (entry.image_url) {
-                        banners.push({
-                            title: entry.title || "Untitled Event",
-                            url: entry.image_url,
-                            start: parseInt(entry.start_time) || Date.now()/1000,
-                            end: parseInt(entry.end_time) || (Date.now()/1000 + 86400),
-                            redirect: entry.group_id_2 || entry.group_id || null,
-                            region: 'BR'
-                        });
-                    }
-                });
-            }
-        });
-    }
-    
-    console.log("Total banners processed for BR:", banners.length);
-    return banners;
-}
+        }
 
-        // Status indicator functions
+        // Funções do indicador de status
         function showStatus(message, type = 'info') {
             const icon = type === 'error' ? 'fa-times' : 
                         type === 'success' ? 'fa-check' : 
@@ -1253,16 +1245,16 @@ function processBrazilBanners(data) {
             }
         }
 
-        // Date formatting
+        // Formatação de data
         function formatDate(date) {
             const day = date.getDate();
-            let suffix = 'th';
-            if (day % 10 === 1 && day !== 11) suffix = 'st';
-            if (day % 10 === 2 && day !== 12) suffix = 'nd';
-            if (day % 10 === 3 && day !== 13) suffix = 'rd';
+            let suffix = 'º';
+            if (day % 10 === 1 && day !== 11) suffix = 'º';
+            if (day % 10 === 2 && day !== 12) suffix = 'º';
+            if (day % 10 === 3 && day !== 13) suffix = 'º';
             
-            const monthNames = ["January", "February", "March", "April", "May", "June",
-                              "July", "August", "September", "October", "November", "December"];
+            const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                              "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
             
             return `${day}${suffix} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
         }
@@ -1274,42 +1266,42 @@ function processBrazilBanners(data) {
         }
 
         function cleanBannerTitle(title) {
-            if (!title) return 'Untitled Event';
+            if (!title) return 'Evento sem título';
             return title.replace(/\*+$/, '').trim();
         }
 
-        // Banner display and filtering
+        // Exibição e filtragem de banners
         function displayBanners(banners, region) {
             if (!banners || banners.length === 0) {
                 bannersContainer.innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-exclamation-circle"></i><br>
-                        No banners available for ${regions[region].name}
+                        Nenhum banner disponível para ${regions[region].name}
                     </div>
                 `;
                 bannersContainer.style.display = "grid";
                 return;
             }
             
-            // Show loading skeletons first
+            // Mostra esqueletos de carregamento primeiro
             showLoadingSkeletons(banners.length);
             
-            // Sort banners by date (newest first)
+            // Ordena banners por data (mais novos primeiro)
             banners.sort((a, b) => b.start - a.start);
             
-            // After a short delay to show skeletons, display actual banners
+            // Após um pequeno atraso para mostrar os esqueletos, exibe os banners reais
             setTimeout(() => {
-                // Generate HTML
+                // Gera HTML
                 bannersContainer.innerHTML = banners.map(banner => createBannerCard(banner)).join('');
                 
-                // Update region count
-                regionCount.textContent = `${banners.length} banners available`;
+                // Atualiza contagem de região
+                regionCount.textContent = `${banners.length} banners disponíveis`;
                 regionCount.style.display = "block";
                 
-                // Show containers
+                // Mostra containers
                 bannersContainer.style.display = "grid";
                 
-                // Add hover sounds to banners
+                // Adiciona sons de hover aos banners
                 document.querySelectorAll('.banner').forEach(banner => {
                     banner.addEventListener('mouseenter', () => {
                         hoverSound.currentTime = 0;
@@ -1317,7 +1309,7 @@ function processBrazilBanners(data) {
                     });
                 });
                 
-                // Lazy load images
+                // Carrega imagens preguiçosamente
                 lazyLoadImages();
             }, 300);
         }
@@ -1364,44 +1356,44 @@ function processBrazilBanners(data) {
             const isUpcoming = getBannerStatus(banner) === "upcoming";
             const hasValidRedirect = banner.redirect && isValidUrl(banner.redirect);
             const cleanTitle = cleanBannerTitle(banner.title);
-            const delay = Math.random() * 0.5; // Random delay for fall animation
+            const delay = Math.random() * 0.5; // Atraso aleatório para animação de queda
             
             return `
             <div class="banner ${isUpcoming ? 'upcoming' : ''}" 
                  data-title="${cleanTitle.toLowerCase()}" 
                  data-date="${banner.start}"
                  style="animation-delay: ${delay}s">
-                ${isUpcoming ? '<div class="upcoming-tag">UPCOMING</div>' : ''}
+                ${isUpcoming ? '<div class="upcoming-tag">EM BREVE</div>' : ''}
                 <div class="banner-image-container">
                     <img src="${banner.url}" alt="${cleanTitle}" loading="lazy"
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                     <div class="banner-image-error">
                         <i class="fas fa-exclamation-circle"></i><br>
-                        Image Not Available
+                        Imagem não disponível
                         <button class="copy-info-button" style="margin-top: 8px; padding: 4px 8px;" 
                                 onclick="retryImageLoad(this.parentElement.previousElementSibling, this.parentElement)">
-                            <i class="fas fa-sync-alt"></i> Retry
+                            <i class="fas fa-sync-alt"></i> Tentar novamente
                         </button>
                     </div>
                 </div>
                 <div class="banner-title">${cleanTitle}</div>
                 <div class="event-date">
-                    From: ${formatDate(startDate)}
+                    A partir de: ${formatDate(startDate)}
                 </div>
                 <div class="button-container">
                     ${hasValidRedirect ? `
                     <a href="${banner.redirect}" target="_blank" class="redirect-button">
-                        <i class="fas fa-external-link-alt"></i> Redirect
+                        <i class="fas fa-external-link-alt"></i> Redirecionar
                     </a>` : ''}
                     <button class="copy-info-button" onclick="copyBannerInfo(this, '${escapeHtml(cleanTitle)}', '${formatDate(startDate)}', '${escapeHtml(banner.url)}')">
-                        <i class="far fa-copy"></i> Copy Info
+                        <i class="far fa-copy"></i> Copiar info
                     </button>
                 </div>
             </div>
             `;
         }
 
-        // Utility functions
+        // Funções utilitárias
         function isValidUrl(string) {
             try {
                 new URL(string);
@@ -1421,13 +1413,13 @@ function processBrazilBanners(data) {
                 .replace(/'/g, "&#039;");
         }
 
-        // Event handlers
+        // Manipuladores de eventos
         terminalInput.addEventListener('input', () => {
             terminalInputDisplay.textContent = terminalInput.value;
         });
 
         terminalInput.addEventListener('keydown', async (e) => {
-            // Command history navigation
+            // Navegação no histórico de comandos
             if (e.key === "ArrowUp" && commandHistory.length > 0) {
                 e.preventDefault();
                 if (historyIndex < commandHistory.length - 1) {
@@ -1452,7 +1444,7 @@ function processBrazilBanners(data) {
                 e.preventDefault();
                 const input = terminalInput.value.trim().toUpperCase();
                 if (input) {
-                    // Tab completion for region codes
+                    // Auto-completar para códigos de região
                     const matches = Object.keys(regions).filter(code => 
                         code.startsWith(input)
                     );
@@ -1460,7 +1452,7 @@ function processBrazilBanners(data) {
                         terminalInput.value = matches[0];
                         terminalInputDisplay.textContent = matches[0];
                     } else if (matches.length > 1) {
-                        addTerminalLine(`Possible completions: ${matches.join(', ')}`, "info");
+                        addTerminalLine(`Completamentos possíveis: ${matches.join(', ')}`, "info");
                     }
                 }
             } else if (e.key === "Enter") {
@@ -1469,32 +1461,32 @@ function processBrazilBanners(data) {
                 terminalInputDisplay.textContent = "";
                 if (!input) return;
 
-                // Add to command history
+                // Adiciona ao histórico de comandos
                 commandHistory.push(input);
                 historyIndex = -1;
                 
-                addTerminalLine(input, "output"); // Add input to terminal
+                addTerminalLine(input, "output"); // Adiciona entrada ao terminal
 
-                if (input === 'CLEAR') {
+                if (input === 'LIMPAR') {
                     clearTerminal();
-                } else if (input === 'LIST') {
+                } else if (input === 'LISTAR') {
                     const regionList = Object.entries(regions)
                         .map(([code, data]) => `${code} ${data.flag} - ${data.name}`)
                         .join('\n');
                     addTerminalLine(regionList, "info");
-                } else if (input === 'HELP') {
+                } else if (input === 'AJUDA') {
                     showHelp();
-                } else if (input === 'ABOUT') {
+                } else if (input === 'SOBRE') {
                     showAbout();
                 } else if (regions[input]) {
-                    addTerminalLine(`Loading ${regions[input].name} banners...`, "success");
-                    terminalInput.blur(); // Hide keyboard on mobile
+                    addTerminalLine(`Carregando banners ${regions[input].name}...`, "success");
+                    terminalInput.blur(); // Esconde o teclado no mobile
                     
-                    // Show region title
+                    // Mostra título da região
                     regionTitle.innerHTML = `${regions[input].flag} ${regions[input].name}`;
                     regionTitle.style.display = "block";
                     
-                    // Load and display banners
+                    // Carrega e exibe banners
                     currentRegion = input;
                     fetchBanners(input).then(banners => {
                         currentBanners = banners;
@@ -1502,12 +1494,12 @@ function processBrazilBanners(data) {
                         bannersContainer.scrollIntoView({ behavior: 'smooth' });
                     });
                 } else {
-                    addTerminalLine(`Error: "${input}" is not a valid command or region code. Type "help" for available commands.`, "error");
+                    addTerminalLine(`Erro: "${input}" não é um comando válido ou código de região. Digite "ajuda" para ver os comandos disponíveis.`, "error");
                 }
             }
         });
 
-        // Terminal window controls
+        // Controles da janela do terminal
         terminalClose.addEventListener('click', () => {
             terminalContainer.style.transform = "scale(0.8)";
             terminalContainer.style.opacity = "0";
@@ -1533,28 +1525,28 @@ function processBrazilBanners(data) {
             }
         });
 
-        // Make entire terminal container clickable to focus input
+        // Torna todo o container do terminal clicável para focar no input
         terminalContainer.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
                 terminalInput.focus();
             }
         });
 
-        // Keyboard shortcuts
+        // Atalhos de teclado
         document.addEventListener('keydown', (e) => {
-            // Ctrl+K to focus terminal
+            // Ctrl+K para focar no terminal
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
                 terminalInput.focus();
             }
             
-            // Escape to blur terminal
+            // Escape para desfocar o terminal
             if (e.key === 'Escape') {
                 terminalInput.blur();
             }
         });
 
-        // Back to top button
+        // Botão de voltar ao topo
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 backToTopButton.classList.add('visible');
@@ -1572,19 +1564,19 @@ function processBrazilBanners(data) {
             clickSound.play();
         });
 
-        // Copy banner info function
+        // Função para copiar informações do banner
         async function copyBannerInfo(button, title, dateRange, url) {
             const originalHTML = button.innerHTML;
             const text = `${title}
-From: ${dateRange}
+A partir de: ${dateRange}
 ${url}`;
             button.classList.add('copied');
-            button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            button.innerHTML = '<i class="fas fa-check"></i> Copiado!';
             try {
                 await navigator.clipboard.writeText(text);
-                showStatus('Banner info copied to clipboard', 'success');
+                showStatus('Informações do banner copiadas', 'success');
                 
-                // Load confetti dynamically
+                // Carrega confetti dinamicamente
                 const { default: confetti } = await import('https://cdn.skypack.dev/canvas-confetti');
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                 
@@ -1593,7 +1585,7 @@ ${url}`;
                     button.innerHTML = originalHTML;
                 }, 2000);
             } catch (err) {
-                console.error("Failed to copy:", err);
+                console.error("Falha ao copiar:", err);
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
                 document.body.appendChild(textarea);
@@ -1607,11 +1599,11 @@ ${url}`;
             }
         }
 
-        // Retry image load function
+        // Função para tentar carregar a imagem novamente
         function retryImageLoad(imgElement, errorContainer) {
             imgElement.style.display = 'block';
             errorContainer.style.display = 'none';
-            imgElement.src = imgElement.src; // Trigger reload
+            imgElement.src = imgElement.src; // Dispara recarregamento
             setTimeout(() => {
                 if (!imgElement.complete || imgElement.naturalWidth === 0) {
                     imgElement.style.display = 'none';
@@ -1620,7 +1612,7 @@ ${url}`;
             }, 1000);
         }
 
-        // Initialize
+        // Inicialização
         window.copyBannerInfo = copyBannerInfo;
         window.retryImageLoad = retryImageLoad;
         terminalInput.focus();
