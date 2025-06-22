@@ -1163,28 +1163,34 @@ Criado por @STark771.
             }
         }
 
-        // Função especial para buscar banners do Brasil
+        // Função especial para buscar banners do Brasil - Versão Corrigida
 async function fetchBrazilBanners() {
     try {
+        showStatus('Carregando banners BR...', 'info');
         const response = await fetch('https://banner-two-phi.vercel.app/splash');
-        const data = await response.json();
         
-        // Processar os dados da API BR para o formato esperado pelo nosso sistema
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("Dados brutos da API BR:", data); // Para debug
+        
         let processedBanners = [];
         
-        // Processar banners (do array "banners")
+        // Processa os banners principais
         if (data.banners && data.banners.length > 0) {
             data.banners.forEach(bannerGroup => {
                 if (bannerGroup.entries && bannerGroup.entries.length > 0) {
                     bannerGroup.entries.forEach(entry => {
-                        // Verifica se tem image_url e se não é um tipo que não deve ser exibido (como type 5)
-                        if (entry.image_url && entry.type !== 5) { 
+                        // Filtra apenas entradas com imagem e que não são do tipo 5 (sem imagem)
+                        if (entry.image_url && entry.type !== 5) {
                             processedBanners.push({
                                 end: parseInt(entry.end_time),
-                                redirect: entry.action_link || entry.group_id || entry.group_id_2 || '',
-                                region: entry.country,
+                                redirect: entry.action_link || '',
+                                region: entry.country || 'BR', // Garante BR como padrão
                                 start: parseInt(entry.start_time),
-                                title: entry.title,
+                                title: entry.title || 'Banner sem título',
                                 url: entry.image_url
                             });
                         }
@@ -1193,18 +1199,18 @@ async function fetchBrazilBanners() {
             });
         }
         
-        // Processar eventos (do array "events")
+        // Processa os eventos (que também contêm banners)
         if (data.events && data.events.length > 0) {
             data.events.forEach(eventGroup => {
                 if (eventGroup.entries && eventGroup.entries.length > 0) {
                     eventGroup.entries.forEach(entry => {
-                        if (entry.image_url) { // Só adiciona se tiver imagem
+                        if (entry.image_url) {
                             processedBanners.push({
                                 end: parseInt(entry.end_time),
                                 redirect: entry.group_id || entry.group_id_2 || '',
-                                region: entry.country,
+                                region: entry.country || 'BR',
                                 start: parseInt(entry.start_time),
-                                title: entry.title,
+                                title: entry.title || 'Evento sem título',
                                 url: entry.image_url
                             });
                         }
@@ -1213,15 +1219,16 @@ async function fetchBrazilBanners() {
             });
         }
         
-        showStatus('Banners do Brasil carregados com sucesso', 'success');
+        console.log("Banners processados:", processedBanners); // Para debug
+        showStatus('Banners BR carregados!', 'success');
         return processedBanners;
+        
     } catch (error) {
-        console.error("Erro ao buscar banners do Brasil:", error);
-        showStatus('Falha ao carregar banners do Brasil', 'error');
+        console.error("Erro detalhado:", error);
+        showStatus('Erro ao carregar banners BR', 'error');
         return [];
     }
 }
-
         // Funções do indicador de status
         function showStatus(message, type = 'info') {
             const icon = type === 'error' ? 'fa-times' : 
