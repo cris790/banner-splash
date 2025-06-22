@@ -881,7 +881,7 @@
     <div class="particles" id="particles"></div>
     <div class="grid-plane"></div>
     
-    <h1 class="main-title">SPLASH BANNERS ARCHIVE</h1>
+    <h1 class="main-title">ZD MAMADOR BANNERS</h1>
     
     <div class="terminal-container" id="terminal-container">
         <div class="terminal-header">
@@ -990,7 +990,7 @@
             "NA": { name: "NORTH AMERICA", flag: "🇺🇸" },
             "ID": { name: "INDONESIA", flag: "🇮🇩" },
             "PK": { name: "PAKISTAN", flag: "🇵🇰" },
-            "BR": { name: "BRAZIL", flag: "🇧🇷" },
+            "BR": { name: "BRAZIL", flag: "🇧🇷", specialApi: true },
             "ME": { name: "MIDDLE EAST", flag: "🇸🇦" },
             "TH": { name: "THAILAND", flag: "🇹🇭" },
             "SAC": { name: "LATAM", flag: "🇲🇽" },
@@ -1125,13 +1125,13 @@ Created by @STark771.
             // Add creator info to the terminal
             const creatorInfo = document.createElement('div');
             creatorInfo.className = 'creator-info';
-            creatorInfo.innerHTML = `Created by @STark771.<br>
+            creatorInfo.innerHTML = `Created by @Stark771.<br>
             <a href="" target="_blank">Instagram</a> 
             <a href="" target="_blank">Telegram</a>`;
             terminalContent.appendChild(creatorInfo);
         }
 
-        // Data fetching and processing
+        // Data fetching and processing - MODIFIED FOR BR
         async function fetchBanners(region) {
             showStatus('Loading banners...', 'info');
             loadingGears.style.display = 'flex';
@@ -1140,31 +1140,25 @@ Created by @STark771.
             
             try {
                 let apiUrl;
+                let data;
                 
-                // Special case for Brazil - use the specific API
                 if (region === 'BR') {
-                    apiUrl = 'https://banner-two-phi.vercel.app/splash';
+                    // Special API for Brazil
+                    apiUrl = "https://banner-two-phi.vercel.app/splash";
+                    const response = await fetch(apiUrl);
+                    data = await response.json();
+                    
+                    // Process the specific BR response
+                    return processBrazilBanners(data);
                 } else {
-                    // For other regions, use the original API with proxy
+                    // Standard API for other regions
                     const proxyUrl = "https://api.allorigins.win/raw?url=";
-                    apiUrl = proxyUrl + encodeURIComponent(`https://ff-banner-api.vercel.app/banner/filter?region=${region}`);
+                    apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
+                    const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+                    data = await response.json();
+                    
+                    return Array.isArray(data) ? data : [];
                 }
-                
-                const response = await fetch(apiUrl);
-                let data = await response.json();
-                
-                // Process Brazil data to match the expected format
-                if (region === 'BR') {
-                    data = data.map(banner => ({
-                        url: banner.imageUrl,
-                        title: banner.title || 'Brazil Splash Banner',
-                        start: Math.floor(new Date(banner.date || new Date()).getTime() / 1000),
-                        redirect: banner.redirectUrl || ''
-                    }));
-                }
-                
-                showStatus('Banners loaded successfully', 'success');
-                return Array.isArray(data) ? data : [];
             } catch (error) {
                 console.error("Error fetching banners:", error);
                 showStatus('Failed to load banners', 'error');
@@ -1172,8 +1166,47 @@ Created by @STark771.
             } finally {
                 setTimeout(() => {
                     loadingGears.style.display = 'none';
-                }, 500); // Small delay to prevent flickering
+                }, 500);
             }
+        }
+
+        // Function to process Brazil banners
+        function processBrazilBanners(data) {
+            const banners = [];
+            
+            // Process banners (campaigns)
+            if (data.banners && data.banners.length > 0) {
+                data.banners[0].entries.forEach(entry => {
+                    if (entry.image_url) {
+                        banners.push({
+                            title: entry.title,
+                            url: entry.image_url,
+                            start: parseInt(entry.start_time),
+                            end: parseInt(entry.end_time),
+                            redirect: entry.action_link || null,
+                            region: 'BR'
+                        });
+                    }
+                });
+            }
+            
+            // Process events (considering as banners too)
+            if (data.events && data.events.length > 0) {
+                data.events[0].entries.forEach(entry => {
+                    if (entry.image_url) {
+                        banners.push({
+                            title: entry.title,
+                            url: entry.image_url,
+                            start: parseInt(entry.start_time),
+                            end: parseInt(entry.end_time),
+                            redirect: entry.group_id_2 || null,
+                            region: 'BR'
+                        });
+                    }
+                });
+            }
+            
+            return banners;
         }
 
         // Status indicator functions
