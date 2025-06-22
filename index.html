@@ -1164,62 +1164,63 @@ Criado por @STark771.
         }
 
         // Função especial para buscar banners do Brasil
-        async function fetchBrazilBanners() {
-            try {
-                const response = await fetch('https://banner-two-phi.vercel.app/splash');
-                const data = await response.json();
-                
-                // Processa os dados da API BR para o formato esperado pelo nosso sistema
-                let processedBanners = [];
-                
-                // Processa banners (do array "banners")
-                if (data.banners && data.banners.length > 0) {
-                    data.banners.forEach(bannerGroup => {
-                        if (bannerGroup.entries && bannerGroup.entries.length > 0) {
-                            bannerGroup.entries.forEach(entry => {
-                                if (entry.image_url) { // Só adiciona se tiver imagem
-                                    processedBanners.push({
-                                        end: parseInt(entry.end_time),
-                                        redirect: entry.action_link || '',
-                                        region: entry.country,
-                                        start: parseInt(entry.start_time),
-                                        title: entry.title,
-                                        url: entry.image_url
-                                    });
-                                }
+async function fetchBrazilBanners() {
+    try {
+        const response = await fetch('https://banner-two-phi.vercel.app/splash');
+        const data = await response.json();
+        
+        // Processar os dados da API BR para o formato esperado pelo nosso sistema
+        let processedBanners = [];
+        
+        // Processar banners (do array "banners")
+        if (data.banners && data.banners.length > 0) {
+            data.banners.forEach(bannerGroup => {
+                if (bannerGroup.entries && bannerGroup.entries.length > 0) {
+                    bannerGroup.entries.forEach(entry => {
+                        // Verifica se tem image_url e se não é um tipo que não deve ser exibido (como type 5)
+                        if (entry.image_url && entry.type !== 5) { 
+                            processedBanners.push({
+                                end: parseInt(entry.end_time),
+                                redirect: entry.action_link || entry.group_id || entry.group_id_2 || '',
+                                region: entry.country,
+                                start: parseInt(entry.start_time),
+                                title: entry.title,
+                                url: entry.image_url
                             });
                         }
                     });
                 }
-                
-                // Processa eventos (do array "events")
-                if (data.events && data.events.length > 0) {
-                    data.events.forEach(eventGroup => {
-                        if (eventGroup.entries && eventGroup.entries.length > 0) {
-                            eventGroup.entries.forEach(entry => {
-                                if (entry.image_url) { // Só adiciona se tiver imagem
-                                    processedBanners.push({
-                                        end: parseInt(entry.end_time),
-                                        redirect: entry.group_id || entry.group_id_2 || '',
-                                        region: entry.country,
-                                        start: parseInt(entry.start_time),
-                                        title: entry.title,
-                                        url: entry.image_url
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-                
-                showStatus('Banners do Brasil carregados com sucesso', 'success');
-                return processedBanners;
-            } catch (error) {
-                console.error("Erro ao buscar banners do Brasil:", error);
-                showStatus('Falha ao carregar banners do Brasil', 'error');
-                return [];
-            }
+            });
         }
+        
+        // Processar eventos (do array "events")
+        if (data.events && data.events.length > 0) {
+            data.events.forEach(eventGroup => {
+                if (eventGroup.entries && eventGroup.entries.length > 0) {
+                    eventGroup.entries.forEach(entry => {
+                        if (entry.image_url) { // Só adiciona se tiver imagem
+                            processedBanners.push({
+                                end: parseInt(entry.end_time),
+                                redirect: entry.group_id || entry.group_id_2 || '',
+                                region: entry.country,
+                                start: parseInt(entry.start_time),
+                                title: entry.title,
+                                url: entry.image_url
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        
+        showStatus('Banners do Brasil carregados com sucesso', 'success');
+        return processedBanners;
+    } catch (error) {
+        console.error("Erro ao buscar banners do Brasil:", error);
+        showStatus('Falha ao carregar banners do Brasil', 'error');
+        return [];
+    }
+}
 
         // Funções do indicador de status
         function showStatus(message, type = 'info') {
